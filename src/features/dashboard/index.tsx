@@ -10,8 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ConfigDrawer } from '@/components/config-drawer'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
-import { TopNav } from '@/components/layout/top-nav'
-import { ProfileDropdown } from '@/components/profile-dropdown'
+// import { TopNav } from '@/components/layout/top-nav'
+// import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { Overview } from './components/overview'
@@ -22,12 +22,12 @@ export function Dashboard() {
     <>
       {/* ===== Top Heading ===== */}
       <Header>
-        <TopNav links={topNav} />
+        {/* <TopNav links={topNav} /> */}
         <div className='ms-auto flex items-center space-x-4'>
           <Search />
           <ThemeSwitch />
           <ConfigDrawer />
-          <ProfileDropdown />
+          {/* <ProfileDropdown /> */}
         </div>
       </Header>
 
@@ -48,7 +48,7 @@ export function Dashboard() {
             <TabsList>
               <TabsTrigger value='overview'>Overview</TabsTrigger>
               <TabsTrigger value='analytics' disabled>
-                Analytics
+                Transactions History
               </TabsTrigger>
               <TabsTrigger value='reports' disabled>
                 Reports
@@ -190,29 +190,29 @@ export function Dashboard() {
   )
 }
 
-const topNav = [
-  {
-    title: 'Overview',
-    href: 'dashboard/overview',
-    isActive: true,
-    disabled: false,
-  },
-  {
-    title: 'Analytics',
-    href: 'dashboard/analytics',
-    isActive: false,
-    disabled: true,
-  },
-  {
-    title: 'Deals and Discounts',
-    href: 'dashboard/deals',
-    isActive: false,
-    disabled: true,
-  },
-  {
-    title: 'Subscriptions',
-    href: 'dashboard/subscriptions',
-    isActive: false,
-    disabled: true,
-  },
-]
+// const topNav = [
+//   {
+//     title: 'Overview',
+//     href: 'dashboard/overview',
+//     isActive: true,
+//     disabled: false,
+//   },
+//   {
+//     title: 'Analytics',
+//     href: 'dashboard/analytics',
+//     isActive: false,
+//     disabled: true,
+//   },
+//   {
+//     title: 'Deals and Discounts',
+//     href: 'dashboard/deals',
+//     isActive: false,
+//     disabled: true,
+//   },
+//   {
+//     title: 'Subscriptions',
+//     href: 'dashboard/subscriptions',
+//     isActive: false,
+//     disabled: true,
+//   },
+// ]

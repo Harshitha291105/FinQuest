@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, useState } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
 import { ChevronRight } from 'lucide-react'
 import {
@@ -32,6 +32,7 @@ import {
   type NavLink,
   type NavGroup as NavGroupProps,
 } from './types'
+import { SignOutDialog } from '../sign-out-dialog'
 
 export function NavGroup({ title, items }: NavGroupProps) {
   const { state, isMobile } = useSidebar()
@@ -64,6 +65,27 @@ function NavBadge({ children }: { children: ReactNode }) {
 
 function SidebarMenuLink({ item, href }: { item: NavLink; href: string }) {
   const { setOpenMobile } = useSidebar()
+  const [signOutOpen, setSignOutOpen] = useState(false)
+
+  // Handle sign out functionality
+  if (item.title === 'Sign Out') {
+    return (
+      <>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            onClick={() => setSignOutOpen(true)}
+            tooltip={item.title}
+          >
+            {item.icon && <item.icon />}
+            <span>{item.title}</span>
+            {item.badge && <NavBadge>{item.badge}</NavBadge>}
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SignOutDialog open={signOutOpen} onOpenChange={setSignOutOpen} />
+      </>
+    )
+  }
+
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
