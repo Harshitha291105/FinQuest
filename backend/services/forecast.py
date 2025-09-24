@@ -1,12 +1,22 @@
 import json
 from datetime import datetime
 from . import recommendations  # relative import
+from .format_transactions import get_formatted_transactions
 
+<<<<<<< HEAD
 def get_forecast_and_recommendations(transactions_file="data/mock_transactions.json",
                                      budgets_file="data/mock_budgets.json"):
     # 1. Load transactions and budgets
     with open(transactions_file) as f:
         transactions = json.load(f)["transactions"]
+=======
+def get_forecast_and_recommendations(budgets_file="data/mock_budgets.json"):
+    # ------------------------------
+    # 1. Load transactions and budgets
+    # ------------------------------
+    # Use formatted transactions from format_transactions service
+    transactions = get_formatted_transactions()
+>>>>>>> f91c72672ce134e20e9341193bd160f07981f864
 
     with open(budgets_file) as f:
         budgets = json.load(f)["budgets"]

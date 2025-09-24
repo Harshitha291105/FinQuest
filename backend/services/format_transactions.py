@@ -59,8 +59,49 @@ def map_category(merchant_name: str, plaid_categories: list = None):
     return "other"
 
 
-def get_formatted_transactions():
+def get_formatted_transactions(use_plaid=False):
     """Load and format transactions for API or script"""
+    if use_plaid:
+        # Import here to avoid circular imports
+        from .plaid_server import get_transactions as get_plaid_transactions
+        
+        try:
+            plaid_response = get_plaid_transactions()
+            if "error" in plaid_response:
+                print(f"Plaid error: {plaid_response['error']}")
+                # Comment out fallback so you can see Plaid errors
+                raise HTTPException(status_code=503, detail=f"Couldn't get data from Plaid: {plaid_response['error']}")
+                # return get_mock_transactions()
+            
+            # Format Plaid transactions
+            formatted = []
+            for tx in plaid_response.get("transactions", []):
+                formatted.append({
+                    "transaction_id": tx.get("transaction_id", ""),
+                    "account_id": tx.get("account_id", ""),
+                    "amount": abs(tx.get("amount", 0)),  # Plaid amounts can be negative
+                    "merchant_name": tx.get("merchant_name") or tx.get("name", "Unknown"),
+                    "category": [map_category(
+                        tx.get("merchant_name") or tx.get("name"),
+                        tx.get("category", [])
+                    )],
+                    "date": tx.get("date", ""),
+                })
+            return formatted
+            
+        except HTTPException:
+            # Re-raise HTTP exceptions (like our Plaid error)
+            raise
+        except Exception as e:
+            print(f"Error fetching Plaid data: {e}")
+            # Comment out fallback so you can see Plaid errors  
+            raise HTTPException(status_code=503, detail=f"Couldn't get data from Plaid: {str(e)}")
+            # return get_mock_transactions()
+    else:
+        return get_mock_transactions()
+
+def get_mock_transactions():
+    """Get transactions from mock JSON file"""
     try:
         raw_transactions = load_transactions(TRANSACTIONS_FILE)
     except FileNotFoundError as e:
