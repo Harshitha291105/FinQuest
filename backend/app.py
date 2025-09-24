@@ -1,13 +1,33 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Dict
 from services.forecast import get_forecast_and_recommendations
+from services.format_transactions import get_formatted_transactions
 import json
 import os
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend requests
+app = FastAPI(title="FinQuest API", version="1.0.0")
 
-@app.route('/forecast', methods=['GET'])
+# Enable CORS for frontend requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Budget data model
+class BudgetData(BaseModel):
+    food: float
+    travel: float
+    shopping: float
+    entertainment: float
+    bills: float
+    transport: float
+
+@app.get("/forecast")
 def get_forecast():
     """
     API endpoint that returns forecast and recommendations
@@ -15,27 +35,20 @@ def get_forecast():
     """
     try:
         result = get_forecast_and_recommendations()
-        return jsonify({
+        return {
             "forecast": result["forecast"],
             "reccs": result["recommendations"]
-        })
+        }
     except Exception as e:
-        return jsonify({
-            "error": f"Failed to generate forecast: {str(e)}"
-        }), 500
+        raise HTTPException(status_code=500, detail=f"Failed to generate forecast: {str(e)}")
 
-@app.route('/budget', methods=['POST'])
-def save_budget():
+@app.post("/budget")
+def save_budget(budget: BudgetData):
     """
     API endpoint to save user budget data
-    Expects JSON with budget categories and amounts
     """
     try:
-        budget_data = request.get_json()
-        
-        # Validate the data
-        if not budget_data:
-            return jsonify({"error": "No budget data provided"}), 400
+        budget_data = budget.dict()
         
         # Save to mock_budgets.json file
         budget_file_path = "data/mock_budgets.json"
@@ -64,17 +77,15 @@ def save_budget():
         with open(budget_file_path, 'w') as f:
             json.dump(budget_structure, f, indent=2)
         
-        return jsonify({
+        return {
             "message": "Budget saved successfully",
             "budgets": budget_structure["budgets"]
-        })
+        }
         
     except Exception as e:
-        return jsonify({
-            "error": f"Failed to save budget: {str(e)}"
-        }), 500
+        raise HTTPException(status_code=500, detail=f"Failed to save budget: {str(e)}")
 
-@app.route('/budget', methods=['GET'])
+@app.get("/budget")
 def get_budget():
     """
     API endpoint to get current budget data
@@ -85,26 +96,36 @@ def get_budget():
         if os.path.exists(budget_file_path):
             with open(budget_file_path, 'r') as f:
                 budget_data = json.load(f)
-            return jsonify(budget_data["budgets"])
+            return budget_data["budgets"]
         else:
             # Return default budget if no file exists
-            return jsonify({
+            return {
                 "Food": 0,
                 "Transportation": 0,
                 "Shopping": 0,
                 "Entertainment": 0,
                 "Housing": 0
-            })
+            }
         
     except Exception as e:
-        return jsonify({
-            "error": f"Failed to get budget: {str(e)}"
-        }), 500
+        raise HTTPException(status_code=500, detail=f"Failed to get budget: {str(e)}")
 
-@app.route('/health', methods=['GET'])
+@app.get("/transactions")
+def get_transactions():
+    """
+    API endpoint that returns formatted transactions
+    """
+    try:
+        transactions = get_formatted_transactions()
+        return {"transactions": transactions}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get transactions: {str(e)}")
+
+@app.get("/health")
 def health_check():
     """Simple health check endpoint"""
-    return jsonify({"status": "healthy"})
+    return {"status": "healthy"}
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=5000)
