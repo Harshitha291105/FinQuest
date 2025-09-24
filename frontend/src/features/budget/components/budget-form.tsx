@@ -37,14 +37,14 @@ export function BudgetForm() {
       const response = await fetch('http://localhost:5000/budget')
       if (response.ok) {
         const data = await response.json()
-        // Map backend categories to frontend format
+        // Direct mapping - categories are now identical
         setBudgets({
           food: data.Food || 0,
-          travel: data.Transportation || 0,
+          travel: data.Travel || 0,
           shopping: data.Shopping || 0,
           entertainment: data.Entertainment || 0,
-          bills: data.Housing || 0,
-          transport: data.Transportation || 0
+          bills: data.Bills || 0,
+          transport: data.Transport || 0
         })
       }
     } catch (error) {

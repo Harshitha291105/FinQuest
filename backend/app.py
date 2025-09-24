@@ -59,20 +59,11 @@ def save_budget(budget: BudgetData):
             "budgets": {}
         }
         
-        # Map frontend categories to backend format
-        category_mapping = {
-            "food": "Food",
-            "travel": "Transportation", 
-            "shopping": "Shopping",
-            "entertainment": "Entertainment",
-            "bills": "Housing",  # Bills maps to Housing
-            "transport": "Transportation"
-        }
-        
-        # Convert frontend data to backend format
+        # Direct mapping - frontend and backend categories are identical
         for category, amount in budget_data.items():
-            backend_category = category_mapping.get(category, category.capitalize())
-            budget_structure["budgets"][backend_category] = float(amount)
+            # Just capitalize the category name to match JSON convention
+            capitalized_category = category.capitalize()
+            budget_structure["budgets"][capitalized_category] = float(amount)
         
         # Write to file
         with open(budget_file_path, 'w') as f:
@@ -99,13 +90,14 @@ def get_budget():
                 budget_data = json.load(f)
             return budget_data["budgets"]
         else:
-            # Return default budget if no file exists
+            # Return default budget if no file exists - matches frontend categories
             return {
                 "Food": 0,
-                "Transportation": 0,
+                "Travel": 0,
                 "Shopping": 0,
                 "Entertainment": 0,
-                "Housing": 0
+                "Bills": 0,
+                "Transport": 0
             }
         
     except Exception as e:
