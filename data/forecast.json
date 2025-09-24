@@ -1,0 +1,32 @@
+{
+    "Food and Drink": {
+        "spent_so_far": 615.75,
+        "budget": 3000,
+        "projected_end_of_month": 803.15,
+        "status": "on track"
+    },
+    "Entertainment": {
+        "spent_so_far": 1415.75,
+        "budget": 2000,
+        "projected_end_of_month": 1846.63,
+        "status": "on track"
+    },
+    "Travel": {
+        "spent_so_far": 800.0,
+        "budget": 5000,
+        "projected_end_of_month": 1043.48,
+        "status": "on track"
+    },
+    "Transport": {
+        "spent_so_far": 1040.0,
+        "budget": 1000,
+        "projected_end_of_month": 1356.52,
+        "status": "over budget"
+    },
+    "Shops": {
+        "spent_so_far": 250.0,
+        "budget": 2500,
+        "projected_end_of_month": 326.09,
+        "status": "on track"
+    }
+}

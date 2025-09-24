@@ -1,0 +1,69 @@
+{
+    "transactions": [
+      {
+        "transaction_id": "tx_001",
+        "account_id": "acc_123",
+        "amount": 450.50,
+        "merchant_name": "Starbucks",
+        "category": ["Food and Drink"],
+        "date": "2025-09-01"
+      },
+      {
+        "transaction_id": "tx_002",
+        "account_id": "acc_123",
+        "amount": 1200.00,
+        "merchant_name": "Netflix",
+        "category": ["Entertainment"],
+        "date": "2025-09-03"
+      },
+      {
+        "transaction_id": "tx_003",
+        "account_id": "acc_123",
+        "amount": 800.00,
+        "merchant_name": "Emirates Airlines",
+        "category": ["Travel"],
+        "date": "2025-09-05"
+      },
+      {
+        "transaction_id": "tx_004",
+        "account_id": "acc_123",
+        "amount": 165.25,
+        "merchant_name": "Zomato",
+        "category": ["Food and Drink"],
+        "date": "2025-09-07"
+      },
+      {
+        "transaction_id": "tx_005",
+        "account_id": "acc_123",
+        "amount": 540.00,
+        "merchant_name": "Uber",
+        "category": ["Transport"],
+        "date": "2025-09-08"
+      },
+      {
+        "transaction_id": "tx_006",
+        "account_id": "acc_123",
+        "amount": 250.00,
+        "merchant_name": "Carrefour",
+        "category": ["Shops"],
+        "date": "2025-09-10"
+      },
+      {
+        "transaction_id": "tx_007",
+        "account_id": "acc_123",
+        "amount": 215.75,
+        "merchant_name": "Spotify",
+        "category": ["Entertainment"],
+        "date": "2025-09-11"
+      },
+      {
+        "transaction_id": "tx_008",
+        "account_id": "acc_123",
+        "amount": 500.00,
+        "merchant_name": "ADNOC Fuel",
+        "category": ["Transport"],
+        "date": "2025-09-12"
+      }
+    ]
+  }
+  
