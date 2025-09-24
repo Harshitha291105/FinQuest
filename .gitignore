@@ -11,7 +11,7 @@ __pycache__/
 venv/
 env/
 ENV/
-
+.env
 # Data files (sensitive or large)
 data/*.xlsx
 data/*.csv
@@ -32,3 +32,5 @@ Thumbs.db
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
+# .gitignore
+access_token.txt

@@ -3,12 +3,12 @@ import json
 import os
 from fastapi import HTTPException
 
-# 📂 Point to your transactions.json file inside backend/data/
+# Point to your transactions.json file inside backend/data/
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))  # points to /backend
 TRANSACTIONS_FILE = os.path.join(BASE_DIR, "data", "mock_transactions.json")
 print(f"📂 Using transactions file: {TRANSACTIONS_FILE}")
 
-# 🔖 Custom category mapping (merchant-based)
+# Custom category mapping (merchant-based)
 CATEGORY_MAPPING = {
     "food": ["McDonald's", "Starbucks", "KFC", "Zomato"],
     "transport": ["Uber", "Lyft", "ADNOC Fuel"],
